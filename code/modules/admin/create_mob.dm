@@ -40,6 +40,10 @@
 	human.dna.features["moth_wings"] = pick(GLOB.moth_wings_list)
 	human.dna.features["moth_antennae"] = pick(GLOB.moth_antennae_list)
 	human.dna.features["pod_hair"] = pick(GLOB.pod_hair_list)
+	// ORBSTATION
+	human.dna.features["rat_snout"] = pick(GLOB.rat_snouts_list)
+	human.dna.features["rat_tail"] = pick(GLOB.rat_tails_list)
+	human.dna.features["rat_ears"] = pick(GLOB.rat_ears_list)
 
 	human.update_body(is_creating = TRUE)
 	human.update_hair(is_creating = TRUE)

@@ -124,6 +124,7 @@
 #include "code\__DEFINES\nitrile.dm"
 #include "code\__DEFINES\nuclear_bomb.dm"
 #include "code\__DEFINES\obj_flags.dm"
+#include "code\__DEFINES\orbstation_traits.dm"
 #include "code\__DEFINES\paintings.dm"
 #include "code\__DEFINES\paper.dm"
 #include "code\__DEFINES\perf_test.dm"
@@ -4509,4 +4510,10 @@
 #include "interface\stylesheet.dm"
 #include "interface\skin.dmf"
 #include "orbstation\antagonists\traitor\objectives\double_cross.dm"
+#include "orbstation\languages\ratvaric.dm"
+#include "orbstation\species\ratfolk\cheese.dm"
+#include "orbstation\species\ratfolk\rat_accessories.dm"
+#include "orbstation\species\ratfolk\rat_bodyparts.dm"
+#include "orbstation\species\ratfolk\rat_prefs.dm"
+#include "orbstation\species\ratfolk\ratfolk.dm"
 // END_INCLUDE

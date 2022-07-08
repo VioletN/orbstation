@@ -368,10 +368,11 @@
 			span_notice("[builder] starts building \a [recipe.title]."),
 			span_notice("You start building \a [recipe.title]..."),
 		)
+		adjusted_time = recipe.time
 		if(HAS_TRAIT(builder, recipe.trait_booster))
 			adjusted_time = (recipe.time * recipe.trait_modifier)
-		else
-			adjusted_time = recipe.time
+		if(HAS_TRAIT(builder, TRAIT_RAT_BUILD))
+			adjusted_time = (adjusted_time * RAT_BUILD_MODIFIER)
 		if(!do_after(builder, adjusted_time, target = builder))
 			builder.balloon_alert(builder, "interrupted!")
 			return

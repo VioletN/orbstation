@@ -111,6 +111,9 @@
 #define SPECIES_ZOMBIE_INFECTIOUS "memezombie"
 #define SPECIES_ZOMBIE_KROKODIL "krokodil_zombie"
 
+// ORBSTATION SPECIES
+#define SPECIES_RAT "rat"
+
 //See: datum/species/var/digitigrade_customization
 ///The species does not have digitigrade legs in generation.
 #define DIGITIGRADE_NEVER 0
