@@ -179,7 +179,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	///Species-only traits. Can be found in [code/__DEFINES/DNA.dm]
 	var/list/species_traits = list()
 	///Generic traits tied to having the species.
-	var/list/inherent_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_CAN_STRIP, TRAIT_LITERATE)
+	var/list/inherent_traits = list()
 	/// List of biotypes the mob belongs to. Used by diseases.
 	var/inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	///List of factions the mob gain upon gaining this species.
@@ -253,6 +253,9 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	///Was the species changed from its original type at the start of the round?
 	var/roundstart_changed = FALSE
+
+	/// This supresses the "dosen't appear to be himself" examine text for if the mob is run by an AI controller. Should be used on any NPC human subtypes. Monkeys are the prime example.
+	var/ai_controlled_species = FALSE
 
 ///////////
 // PROCS //
@@ -786,6 +789,10 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		if(BODY_FRONT_LAYER)
 			return "FRONT"
 
+///Proc that will randomise the hair, or primary appearance element (i.e. for moths wings) of a species' associated mob
+/datum/species/proc/randomize_main_appearance_element(mob/living/carbon/human/human_mob)
+	human_mob.hairstyle = random_hairstyle(human_mob.gender)
+	human_mob.update_body_parts()
 
 ///Proc that will randomise the underwear (i.e. top, pants and socks) of a species' associated mob
 /datum/species/proc/randomize_active_underwear(mob/living/carbon/human/human_mob)
@@ -1047,7 +1054,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		return
 	target.facial_hairstyle = "Shaved"
 	target.hairstyle = "Bald"
-	target.update_hair(is_creating = TRUE)
+	target.update_body_parts()
 
 //////////////////
 // ATTACK PROCS //
@@ -1110,7 +1117,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 		var/damage = rand(user.dna.species.punchdamagelow, user.dna.species.punchdamagehigh)
 
-		var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(user.zone_selected))
+		var/obj/item/bodypart/affecting = target.get_bodypart(target.get_random_valid_zone(user.zone_selected))
 
 		var/miss_chance = 100//calculate the odds that a punch misses entirely. considers stamina and brute damage of the puncher. punches miss by default to prevent weird cases
 		if(user.dna.species.punchdamagelow)
@@ -1287,13 +1294,13 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			if(bloody) //Apply blood
 				if(human.wear_mask)
 					human.wear_mask.add_mob_blood(human)
-					human.update_inv_wear_mask()
+					human.update_worn_mask()
 				if(human.head)
 					human.head.add_mob_blood(human)
-					human.update_inv_head()
+					human.update_worn_head()
 				if(human.glasses && prob(33))
 					human.glasses.add_mob_blood(human)
-					human.update_inv_glasses()
+					human.update_worn_glasses()
 
 		if(BODY_ZONE_CHEST)
 			if(human.stat == CONSCIOUS && !weapon.get_sharpness() && armor_block < 50)
@@ -1305,10 +1312,10 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			if(bloody)
 				if(human.wear_suit)
 					human.wear_suit.add_mob_blood(human)
-					human.update_inv_wear_suit()
+					human.update_worn_oversuit()
 				if(human.w_uniform)
 					human.w_uniform.add_mob_blood(human)
-					human.update_inv_w_uniform()
+					human.update_worn_undersuit()
 
 	/// Triggers force say events
 	if(weapon.force > 10 || weapon.force >= 5 && prob(33))
@@ -1329,7 +1336,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			BP = def_zone
 		else
 			if(!def_zone)
-				def_zone = ran_zone(def_zone)
+				def_zone = H.get_random_valid_zone(def_zone)
 			BP = H.get_bodypart(check_zone(def_zone))
 			if(!BP)
 				BP = H.bodyparts[1]
