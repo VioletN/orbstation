@@ -47,29 +47,37 @@
 	name = "rat stomach"
 
 /obj/item/organ/internal/stomach/ratfolk/on_life(delta_time, times_fired)
+	. = ..()
+	handle_cheese()
+
+/obj/item/organ/internal/stomach/ratfolk/proc/handle_cheese()
 	var/datum/reagent/consumable/cheese/cheese = locate(/datum/reagent/consumable/cheese) in owner.reagents.reagent_list
 	if(cheese?.volume)
 		cheese.volume = min(cheese.volume, 30) // let's cap the amount of cheese you can have in your stomach
 		if(!owner.has_movespeed_modifier(/datum/movespeed_modifier/cheese_rush))
-			if(ishuman(owner))
-				var/mob/living/carbon/human/H = owner
-				H.physiology.hunger_mod /= 0.25 // hunger increases faster in cheese rush mode
-			owner.add_movespeed_modifier(/datum/movespeed_modifier/cheese_rush)
-			to_chat(owner, span_notice("The cheese gives you a sudden burst of energy!"))
+			start_cheese_rush(owner)
 	else
 		if(owner.has_movespeed_modifier(/datum/movespeed_modifier/cheese_rush))
-			if(ishuman(owner))
-				var/mob/living/carbon/human/H = owner
-				H.physiology.hunger_mod *= 0.25 // hunger returns to normal
-			owner.remove_movespeed_modifier(/datum/movespeed_modifier/cheese_rush)
-			to_chat(owner, span_warning("You feel the effects of your cheese rush wear off."))
-	return ..()
+			end_cheese_rush(owner)
 
 /obj/item/organ/internal/stomach/ratfolk/Remove(mob/living/carbon/carbon, special = 0)
 	if(carbon.has_movespeed_modifier(/datum/movespeed_modifier/cheese_rush))
-		to_chat(carbon, span_warning("You feel the effects of your cheese rush wear off."))
-		carbon.remove_movespeed_modifier(/datum/movespeed_modifier/cheese_rush)
+		end_cheese_rush(carbon)
 	return ..()
+
+/obj/item/organ/internal/stomach/ratfolk/proc/start_cheese_rush(mob/living/carbon/carbon)
+	if(ishuman(carbon))
+		var/mob/living/carbon/human/H = carbon
+		H.physiology.hunger_mod /= 0.25 // hunger increases faster in cheese rush mode
+	carbon.add_movespeed_modifier(/datum/movespeed_modifier/cheese_rush)
+	to_chat(carbon, span_notice("The cheese gives you a sudden burst of energy!"))
+
+/obj/item/organ/internal/stomach/ratfolk/proc/end_cheese_rush(mob/living/carbon/carbon)
+	if(ishuman(carbon))
+		var/mob/living/carbon/human/H = carbon
+		H.physiology.hunger_mod *= 0.25 // hunger returns to normal
+	carbon.remove_movespeed_modifier(/datum/movespeed_modifier/cheese_rush)
+	to_chat(carbon, span_warning("You feel the effects of your cheese rush wear off."))
 
 /datum/movespeed_modifier/cheese_rush
 	multiplicative_slowdown = CHEESE_RUSH_MODIFIER

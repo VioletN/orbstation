@@ -121,5 +121,27 @@
 
 	return to_add
 
+/datum/species/ratfolk/get_scream_sound(mob/living/carbon/human/human)
+	// copied from humans until rats can get their own unique scream sounds
+	if(human.gender == MALE)
+		if(prob(1))
+			return 'sound/voice/human/wilhelm_scream.ogg'
+		return pick(
+			'sound/voice/human/malescream_1.ogg',
+			'sound/voice/human/malescream_2.ogg',
+			'sound/voice/human/malescream_3.ogg',
+			'sound/voice/human/malescream_4.ogg',
+			'sound/voice/human/malescream_5.ogg',
+			'sound/voice/human/malescream_6.ogg',
+		)
+
+	return pick(
+		'sound/voice/human/femalescream_1.ogg',
+		'sound/voice/human/femalescream_2.ogg',
+		'sound/voice/human/femalescream_3.ogg',
+		'sound/voice/human/femalescream_4.ogg',
+		'sound/voice/human/femalescream_5.ogg',
+	)
+
 /mob/living/carbon/human/species/ratfolk
 	race = /datum/species/ratfolk
