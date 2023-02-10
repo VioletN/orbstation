@@ -5,7 +5,7 @@
 /mob/living/simple_animal/hostile/hivebot
 	name = "hivebot"
 	desc = "A small robot."
-	icon = 'icons/mob/hivebot.dmi'
+	icon = 'icons/mob/simple/hivebot.dmi'
 	icon_state = "basic"
 	icon_living = "basic"
 	icon_dead = "basic"
@@ -132,7 +132,7 @@
 			return
 		to_chat(src, span_warning("You begin repairs..."))
 		if(do_after(src, 50, target = fixable))
-			fixable.revive(full_heal = TRUE, admin_revive = TRUE)
+			fixable.revive(HEAL_ALL)
 			do_sparks(3, TRUE, fixable)
 			to_chat(src, span_warning("Repairs complete."))
 		return
@@ -140,6 +140,7 @@
 
 /datum/action/innate/hivebot
 	background_icon_state = "bg_default"
+	overlay_icon_state = "bg_default_border"
 
 /datum/action/innate/hivebot/foamwall
 	name = "Foam Wall"

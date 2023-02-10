@@ -34,22 +34,8 @@
 	qdel(src)
 
 /obj/effect/baseturf_helper/proc/replace_baseturf(turf/thing)
-	if(length(thing.baseturfs))
-		var/list/baseturf_cache = thing.baseturfs.Copy()
-		for(var/i in baseturf_cache)
-			if(baseturf_to_replace[i])
-				baseturf_cache -= i
-		thing.baseturfs = baseturfs_string_list(baseturf_cache, thing)
-		if(!baseturf_cache.len)
-			thing.assemble_baseturfs(baseturf)
-		else
-			thing.PlaceOnBottom(null, baseturf)
-	else if(baseturf_to_replace[thing.baseturfs])
-		thing.assemble_baseturfs(baseturf)
-	else
-		thing.PlaceOnBottom(null, baseturf)
-
-
+	thing.remove_baseturfs_from_typecache(baseturf_to_replace)
+	thing.PlaceOnBottom(fake_turf_type = baseturf)
 
 /obj/effect/baseturf_helper/space
 	name = "space baseturf editor"
@@ -86,6 +72,23 @@
 /obj/effect/baseturf_helper/lava_land/surface
 	name = "lavaland baseturf editor"
 	baseturf = /turf/open/lava/smooth/lava_land_surface
+
+/obj/effect/baseturf_helper/reinforced_plating
+	name = "reinforced plating baseturf editor"
+	baseturf = /turf/open/floor/plating/reinforced
+	baseturf_to_replace = list(/turf/open/floor/plating,/turf/open/space,/turf/baseturf_bottom)
+
+//This applies the reinforced plating to the above Z level for every tile in the area where this is placed
+/obj/effect/baseturf_helper/reinforced_plating/ceiling
+	name = "reinforced ceiling plating baseturf editor"
+
+/obj/effect/baseturf_helper/reinforced_plating/ceiling/replace_baseturf(turf/thing)
+	var/turf/ceiling = get_step_multiz(thing, UP)
+	if(isnull(ceiling))
+		CRASH("baseturf helper is attempting to modify the Z level above but there is no Z level above above it.")
+	if(isspaceturf(ceiling) || istype(ceiling, /turf/open/openspace))
+		return
+	return ..(ceiling)
 
 
 /obj/effect/mapping_helpers
@@ -134,7 +137,7 @@
 					qdel(src)
 					return
 				here.PlaceOnTop(/turf/closed/wall)
-				qdel(src)
+				qdel(airlock)
 				return
 			if(9 to 11)
 				airlock.lights = FALSE
@@ -144,12 +147,12 @@
 			if(16 to 23)
 				airlock.welded = TRUE
 			if(24 to 30)
-				airlock.panel_open = TRUE
+				airlock.set_panel_open(TRUE)
 	if(airlock.cutAiWire)
 		airlock.wires.cut(WIRE_AI)
 	if(airlock.autoname)
 		airlock.name = get_area_name(src, TRUE)
-	update_appearance()
+	airlock.update_appearance()
 	qdel(src)
 
 /obj/effect/mapping_helpers/airlock/proc/payload(obj/machinery/door/airlock/payload)
@@ -283,6 +286,17 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 /obj/effect/mapping_helpers/atom_injector/proc/generate_stack_trace()
 	. = "[name] found no targets at ([x], [y], [z]). First Match Only: [first_match_only ? "true" : "false"] target type: [target_type] | target name: [target_name]"
 
+/obj/effect/mapping_helpers/atom_injector/obj_flag
+	name = "Obj Flag Injector"
+	icon_state = "objflag_helper"
+	var/inject_flags = NONE
+
+/obj/effect/mapping_helpers/atom_injector/obj_flag/inject(atom/target)
+	if(!isobj(target))
+		return
+	var/obj/obj_target = target
+	obj_target.obj_flags |= inject_flags
+
 ///This helper applies components to things on the map directly.
 /obj/effect/mapping_helpers/atom_injector/component_injector
 	name = "Component Injector"
@@ -351,6 +365,47 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 /obj/effect/mapping_helpers/atom_injector/trait_injector/generate_stack_trace()
 	. = ..()
 	. += " | trait name: [trait_name]"
+
+///This helper applies dynamic human icons to things on the map
+/obj/effect/mapping_helpers/atom_injector/human_icon_injector
+	name = "Human Icon Injector"
+	icon_state = "icon"
+	/// Path of the outfit we give the human.
+	var/outfit_path
+	/// Path of the species we give the human.
+	var/species_path = /datum/species/human
+	/// Path of the mob spawner we base the human off of.
+	var/mob_spawn_path
+	/// Path of the right hand item we give the human.
+	var/r_hand = NO_REPLACE
+	/// Path of the left hand item we give the human.
+	var/l_hand = NO_REPLACE
+	/// Which slots on the mob should be bloody?
+	var/bloody_slots = NONE
+	/// Directions we generate for the mob.
+	var/generated_dirs = list(NORTH, SOUTH, EAST, WEST)
+	/// Do we draw more than one frame for the mob?
+	var/animated = TRUE
+
+/obj/effect/mapping_helpers/atom_injector/human_icon_injector/check_validity()
+	if(!ispath(species_path, /datum/species))
+		CRASH("Wrong species path in [type] - [species_path] is not a species")
+	if(outfit_path && !ispath(outfit_path, /datum/outfit))
+		CRASH("Wrong outfit path in [type] - [species_path] is not an outfit")
+	if(mob_spawn_path && !ispath(mob_spawn_path, /obj/effect/mob_spawn))
+		CRASH("Wrong mob spawn path in [type] - [mob_spawn_path] is not a mob spawner")
+	if(l_hand && !ispath(l_hand, /obj/item))
+		CRASH("Wrong left hand item path in [type] - [l_hand] is not an item")
+	if(r_hand && !ispath(r_hand, /obj/item))
+		CRASH("Wrong left hand item path in [type] - [r_hand] is not an item")
+	return TRUE
+
+/obj/effect/mapping_helpers/atom_injector/human_icon_injector/inject(atom/target)
+	apply_dynamic_human_icon(target, outfit_path, species_path, mob_spawn_path, r_hand, l_hand, bloody_slots, generated_dirs, animated)
+
+/obj/effect/mapping_helpers/atom_injector/human_icon_injector/generate_stack_trace()
+	. = ..()
+	. += " | outfit path: [outfit_path] | species path: [species_path] | mob spawner path: [mob_spawn_path] | right/left hand path: [r_hand]/[l_hand]"
 
 ///Fetches an external dmi and applies to the target object
 /obj/effect/mapping_helpers/atom_injector/custom_icon
@@ -474,18 +529,19 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 
 	var/reuse_trays = (trays.len < bodycount) //are we going to spawn more trays than bodies?
 
-	var/use_species = CONFIG_GET(flag/morgue_cadaver_disable_nonhumans)
+	var/use_species = !(CONFIG_GET(flag/morgue_cadaver_disable_nonhumans))
 	var/species_probability = CONFIG_GET(number/morgue_cadaver_other_species_probability)
 	var/override_species = CONFIG_GET(string/morgue_cadaver_override_species)
 	var/list/usable_races
 	if(use_species)
-		usable_races = GLOB.roundstart_races.Copy()
+		var/list/temp_list = get_selectable_species()
+		usable_races = temp_list.Copy()
 		usable_races -= SPECIES_ETHEREAL //they revive on death which is bad juju
 		LAZYREMOVE(usable_races, SPECIES_HUMAN)
 		if(!usable_races)
-			stack_trace("morgue_cadaver_disable_nonhumans. THERE ARE NO VALID NONHUMANS ENABLED")
+			notice("morgue_cadaver_disable_nonhumans. There are no valid roundstart nonhuman races enabled. Defaulting to humans only!")
 		if(override_species)
-			stack_trace("WARNING: BOTH use_all_roundstart_races_for_cadavers & morgue_cadaver_override_species CONFIGS ENABLED. morgue_cadaver_override_species BEING OVERRIDEN.")
+			warning("morgue_cadaver_override_species BEING OVERRIDEN since morgue_cadaver_disable_nonhumans is disabled.")
 	else if(override_species)
 		usable_races += override_species
 
@@ -504,6 +560,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 				var/datum/species/new_human_species = GLOB.species_list[species_to_pick]
 				if(new_human_species)
 					new_human.set_species(new_human_species)
+					new_human_species = new_human.dna.species
 					new_human_species.randomize_features(new_human)
 					new_human.fully_replace_character_name(new_human.real_name, new_human_species.random_name(new_human.gender, TRUE, TRUE))
 				else
@@ -535,7 +592,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	var/balloon_clusters = 2
 
 /obj/effect/mapping_helpers/ianbirthday/LateInitialize()
-	if(locate(/datum/holiday/ianbirthday) in SSevents.holidays)
+	if(check_holidays("Ian's Birthday"))
 		birthday()
 	qdel(src)
 
@@ -603,7 +660,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	icon_state = "iansnewyrshelper"
 
 /obj/effect/mapping_helpers/iannewyear/LateInitialize()
-	if(SSevents.holidays && SSevents.holidays[NEW_YEAR])
+	if(check_holidays(NEW_YEAR))
 		fireworks()
 	qdel(src)
 
@@ -617,7 +674,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 			table += thing
 		else if(isopenturf(thing))
 			if(locate(/obj/structure/bed/dogbed/ian) in thing)
-				new /obj/item/clothing/head/festive(thing)
+				new /obj/item/clothing/head/costume/festive(thing)
 				var/obj/item/reagent_containers/cup/glass/bottle/champagne/iandrink = new(thing)
 				iandrink.name = "dog champagne"
 				iandrink.pixel_y += 8
@@ -715,7 +772,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 
 /obj/effect/mapping_helpers/circuit_spawner/Initialize(mapload)
 	. = ..()
-	INVOKE_ASYNC(src, .proc/spawn_circuit)
+	INVOKE_ASYNC(src, PROC_REF(spawn_circuit))
 
 /obj/effect/mapping_helpers/circuit_spawner/proc/spawn_circuit()
 	var/list/errors = list()

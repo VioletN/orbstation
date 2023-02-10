@@ -13,7 +13,7 @@
 	var/base_build_path = /obj/machinery/smartfridge
 	/// Maximum number of items that can be loaded into the machine
 	var/max_n_of_items = 1500
-	/// If the AI is allowed to retrive items within the machine
+	/// If the AI is allowed to retrieve items within the machine
 	var/allow_ai_retrieve = FALSE
 	/// List of items that the machine starts with upon spawn
 	var/list/initial_contents
@@ -34,8 +34,8 @@
 
 /obj/machinery/smartfridge/RefreshParts()
 	. = ..()
-	for(var/obj/item/stock_parts/matter_bin/B in component_parts)
-		max_n_of_items = 1500 * B.rating
+	for(var/datum/stock_part/matter_bin/matter_bin in component_parts)
+		max_n_of_items = 1500 * matter_bin.tier
 
 /obj/machinery/smartfridge/examine(mob/user)
 	. = ..()
@@ -66,7 +66,7 @@
 /obj/machinery/smartfridge/update_overlays()
 	. = ..()
 	if(!machine_stat)
-		. += emissive_appearance(icon, "[initial(icon_state)]-light-mask", alpha = src.alpha)
+		. += emissive_appearance(icon, "[initial(icon_state)]-light-mask", src, alpha = src.alpha)
 
 /obj/machinery/smartfridge/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
@@ -219,7 +219,7 @@
 				if(!desired)
 					return FALSE
 
-			if(QDELETED(src) || QDELETED(usr) || !usr.canUseTopic(src, BE_CLOSE, FALSE, NO_TK)) // Sanity checkin' in case stupid stuff happens while we wait for input()
+			if(QDELETED(src) || QDELETED(usr) || !usr.canUseTopic(src, be_close = TRUE, no_dexterity = FALSE, no_tk = TRUE)) // Sanity checkin' in case stupid stuff happens while we wait for input()
 				return FALSE
 
 			for(var/obj/item/dispensed_item in src)
@@ -267,20 +267,9 @@
 	icon_state = "drying_rack"
 	visible_contents = FALSE
 	base_build_path = /obj/machinery/smartfridge/drying_rack //should really be seeing this without admin fuckery.
+	use_power = NO_POWER_USE
+	idle_power_usage = 0
 	var/drying = FALSE
-
-/obj/machinery/smartfridge/drying_rack/Initialize(mapload)
-	. = ..()
-
-	// Cache the old_parts first, we'll delete it after we've changed component_parts to a new list.
-	// This stops handle_atom_del being called on every part when not necessary.
-	var/list/old_parts = component_parts.Copy()
-
-	component_parts = null
-	circuit = null
-
-	QDEL_LIST(old_parts)
-	RefreshParts()
 
 /obj/machinery/smartfridge/drying_rack/on_deconstruction()
 	new /obj/item/stack/sheet/mineral/wood(drop_location(), 10)
@@ -451,12 +440,16 @@
 	if(isorgan(O))
 		var/obj/item/organ/organ = O
 		organ.organ_flags |= ORGAN_FROZEN
+	if(isbodypart(O))
+		var/obj/item/bodypart/bodypart = O
+		for(var/obj/item/organ/stored in bodypart.contents)
+			stored.organ_flags |= ORGAN_FROZEN
 
 /obj/machinery/smartfridge/organ/RefreshParts()
 	. = ..()
-	for(var/obj/item/stock_parts/matter_bin/B in component_parts)
-		max_n_of_items = 20 * B.rating
-		repair_rate = max(0, STANDARD_ORGAN_HEALING * (B.rating - 1) * 0.5)
+	for(var/datum/stock_part/matter_bin/matter_bin in component_parts)
+		max_n_of_items = 20 * matter_bin.tier
+		repair_rate = max(0, STANDARD_ORGAN_HEALING * (matter_bin.tier - 1) * 0.5)
 
 /obj/machinery/smartfridge/organ/process(delta_time)
 	for(var/obj/item/organ/organ in contents)
@@ -467,6 +460,10 @@
 	if(isorgan(gone))
 		var/obj/item/organ/O = gone
 		O.organ_flags &= ~ORGAN_FROZEN
+	if(isbodypart(gone))
+		var/obj/item/bodypart/bodypart = gone
+		for(var/obj/item/organ/stored in bodypart.contents)
+			stored.organ_flags &= ~ORGAN_FROZEN
 
 // -----------------------------
 // Chemistry Medical Smartfridge

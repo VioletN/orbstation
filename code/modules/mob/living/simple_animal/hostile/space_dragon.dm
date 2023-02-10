@@ -35,7 +35,7 @@
 	attack_sound = 'sound/magic/demon_attack1.ogg'
 	attack_vis_effect = ATTACK_EFFECT_BITE
 	death_sound = 'sound/creatures/space_dragon_roar.ogg'
-	icon = 'icons/mob/spacedragon.dmi'
+	icon = 'icons/mob/nonhuman-player/spacedragon.dmi'
 	icon_state = "spacedragon"
 	icon_living = "spacedragon"
 	icon_dead = "spacedragon_dead"
@@ -86,13 +86,13 @@
 	. = ..()
 	AddElement(/datum/element/simple_flying)
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_FREE_HYPERSPACE_MOVEMENT, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_NO_FLOATING_ANIM, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_HEALS_FROM_CARP_RIFTS, INNATE_TRAIT)
-	ADD_TRAIT(src, TRAIT_ALERT_GHOSTS_ON_DEATH, INNATE_TRAIT)
 	AddElement(/datum/element/content_barfer)
 	small_sprite = new
 	small_sprite.Grant(src)
-	RegisterSignal(small_sprite, COMSIG_ACTION_TRIGGER, .proc/add_dragon_overlay)
+	RegisterSignal(small_sprite, COMSIG_ACTION_TRIGGER, PROC_REF(add_dragon_overlay))
 
 /mob/living/simple_animal/hostile/space_dragon/Login()
 	. = ..()
@@ -170,19 +170,17 @@
 	fire_stream()
 
 /mob/living/simple_animal/hostile/space_dragon/death(gibbed)
-	empty_contents()
-	..()
+	. = ..()
 	add_dragon_overlay()
 	UnregisterSignal(small_sprite, COMSIG_ACTION_TRIGGER)
 
-/mob/living/simple_animal/hostile/space_dragon/revive(full_heal, admin_revive)
+/mob/living/simple_animal/hostile/space_dragon/revive(full_heal_flags = NONE, excess_healing = 0, force_grab_ghost = FALSE)
+	var/was_dead = stat == DEAD
 	. = ..()
 	add_dragon_overlay()
-	RegisterSignal(small_sprite, COMSIG_ACTION_TRIGGER, .proc/add_dragon_overlay)
 
-/mob/living/simple_animal/hostile/space_dragon/wabbajack_act(mob/living/new_mob)
-	empty_contents()
-	. = ..()
+	if (was_dead)
+		RegisterSignal(small_sprite, COMSIG_ACTION_TRIGGER, PROC_REF(add_dragon_overlay))
 
 /**
  * Allows space dragon to choose its own name.
@@ -289,7 +287,7 @@
 			if(D.density)
 				return
 		delayFire += 1.5
-		addtimer(CALLBACK(src, .proc/dragon_fire_line, T), delayFire)
+		addtimer(CALLBACK(src, PROC_REF(dragon_fire_line), T), delayFire)
 
 /**
  * What occurs on each tile to actually create the fire.
@@ -307,6 +305,8 @@
 	T.hotspot_expose(700,50,1)
 	for(var/mob/living/L in T.contents)
 		if(L in hit_list)
+			continue
+		if(L.mind?.has_antag_datum(/datum/antagonist/space_carp))
 			continue
 		hit_list += L
 		L.adjustFireLoss(30)
@@ -335,18 +335,6 @@
 	return FALSE
 
 /**
- * Disperses the contents of the mob on the surrounding tiles.
- *
- * Randomly places the contents of the mob onto surrounding tiles.
- * Has a 10% chance to place on the same tile as the mob.
- */
-/mob/living/simple_animal/hostile/space_dragon/proc/empty_contents()
-	for(var/atom/movable/AM in src)
-		AM.forceMove(loc)
-		if(prob(90))
-			step(AM, pick(GLOB.alldirs))
-
-/**
  * Resets Space Dragon's status after using wing gust.
  *
  * Resets Space Dragon's status after using wing gust.
@@ -372,7 +360,7 @@
 /mob/living/simple_animal/hostile/space_dragon/proc/useGust(timer)
 	if(timer != 10)
 		pixel_y = pixel_y + 2;
-		addtimer(CALLBACK(src, .proc/useGust, timer + 1), 1.5)
+		addtimer(CALLBACK(src, PROC_REF(useGust), timer + 1), 1.5)
 		return
 	pixel_y = 0
 	icon_state = "spacedragon_gust_2"
@@ -394,7 +382,7 @@
 			var/throwtarget = get_edge_target_turf(target, dir_to_target)
 			L.safe_throw_at(throwtarget, 10, 1, src)
 			L.Paralyze(50)
-	addtimer(CALLBACK(src, .proc/reset_status), 4 + ((tiredness * tiredness_mult) / 10))
+	addtimer(CALLBACK(src, PROC_REF(reset_status)), 4 + ((tiredness * tiredness_mult) / 10))
 	tiredness = tiredness + (gust_tiredness * tiredness_mult)
 
 #undef DARKNESS_THRESHOLD
