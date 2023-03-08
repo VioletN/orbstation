@@ -106,13 +106,22 @@
 			draw_color = override_color(ownerlimb.draw_color)
 		if(ORGAN_COLOR_INHERIT)
 			//BEGIN ORBSTATION EDIT
-			if(sprite_datum.color_src == FACEHAIR) //Re-enabling colored snouts, mostly
-				if(!ishuman(ownerlimb.owner))
-					return
-				var/mob/living/carbon/human/human_owner = ownerlimb.owner
-				draw_color = human_owner.facial_hair_color
-			else
-				draw_color = ownerlimb.draw_color
+			if(!ishuman(ownerlimb.owner))
+				return
+			var/mob/living/carbon/human/human_owner = ownerlimb.owner
+			switch(sprite_datum.color_src)
+				if(FACEHAIR)
+					draw_color = human_owner.facial_hair_color
+				if(MUTCOLORS_ALT)
+					draw_color = human_owner.dna.features["mcolor_alt"]
+				if(EARCOLOR)
+					draw_color = human_owner.dna.features["ear_color"]
+				if(SNOUTCOLOR)
+					draw_color = human_owner.dna.features["snout_color"]
+				if(TAILCOLOR)
+					draw_color = human_owner.dna.features["tail_color"]
+				else
+					draw_color = ownerlimb.draw_color
 			//END ORBSTATION EDIT
 		if(ORGAN_COLOR_HAIR)
 			if(!ishuman(ownerlimb.owner))

@@ -96,10 +96,27 @@
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/rat, GLOB.rat_tails_list)
 	if(!GLOB.rat_ears_list.len)
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/rat_ears, GLOB.rat_ears_list)
+	// ORBSTATION: Chimeras
+	if(!GLOB.chimera_snouts_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_snouts, GLOB.chimera_snouts_list)
+	if(!GLOB.chimera_horns_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_horns, GLOB.chimera_horns_list)
+	if(!GLOB.chimera_tails_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/chimera, GLOB.chimera_tails_list)
+	if(!GLOB.chimera_wings_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_wings, GLOB.chimera_wings_list)
+	if(!GLOB.chimera_ears_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_ears, GLOB.chimera_ears_list)
+	if(!GLOB.chimera_body_markings_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_body_markings, GLOB.chimera_body_markings_list)
+	if(!GLOB.chimera_spines_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_spines, GLOB.chimera_spines_list)
+
+	var/random_mcolor = "#[pick("7F","FF")][pick("7F","FF")][pick("7F","FF")]" // ORBSTATION
 
 	//For now we will always return none for tail_human and ears. | "For now" he says.
 	return(list(
-		"mcolor" = "#[pick("7F","FF")][pick("7F","FF")][pick("7F","FF")]",
+		"mcolor" = random_mcolor, // ORBSTATION
 		"ethcolor" = GLOB.color_list_ethereal[pick(GLOB.color_list_ethereal)],
 		"tail_cat" = "None",
 		"tail_lizard" = "Smooth",
@@ -118,9 +135,21 @@
 		"tail_monkey" = "None",
 		"pod_hair" = pick(GLOB.pod_hair_list),
 		// ORBSTATION
+		"mcolor_alt" = random_mcolor,
+		"ear_color" = random_mcolor,
+		"snout_color" = random_mcolor,
+		"tail_color" = random_mcolor,
 		"rat_snout" = pick(GLOB.rat_snouts_list),
 		"rat_tail" = pick(GLOB.rat_tails_list),
 		"rat_ears" = pick(GLOB.rat_ears_list),
+		// ORBSTATION: Chimeras
+		"chimera_snout" = pick(GLOB.chimera_snouts_list),
+		"chimera_horns" = pick(GLOB.chimera_horns_list),
+		"chimera_tail" = pick(GLOB.chimera_tails_list),
+		"chimera_wings" = pick(GLOB.chimera_wings_list),
+		"chimera_ears" = pick(GLOB.chimera_ears_list),
+		"chimera_body_markings" = pick(GLOB.chimera_body_markings_list),
+		"chimera_spines" = pick(GLOB.chimera_spines_list),
 	))
 
 /proc/random_hairstyle(gender)

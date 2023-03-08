@@ -2,3 +2,4 @@
 
 //Defines for Species IDs
 #define SPECIES_RATFOLK "ratfolk"
+#define SPECIES_CHIMERA "chimera"

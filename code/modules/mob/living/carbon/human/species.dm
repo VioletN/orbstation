@@ -789,6 +789,8 @@ GLOBAL_LIST_EMPTY(features_by_species)
 					accessory = GLOB.caps_list[source.dna.features["caps"]]
 				if("rat_ears") // ORBSTATION
 					accessory = GLOB.rat_ears_list[source.dna.features["rat_ears"]]
+				if("chimera_ears")
+					accessory = GLOB.chimera_ears_list[source.dna.features["chimera_ears"]]
 
 			if(!accessory || accessory.icon_state == "none")
 				continue
@@ -825,6 +827,16 @@ GLOBAL_LIST_EMPTY(features_by_species)
 							accessory_overlay.color = source.facial_hair_color
 						if(EYECOLOR)
 							accessory_overlay.color = source.eye_color_left
+						// BEGIN ORBSTATION EDIT
+						if(MUTCOLORS_ALT)
+							accessory_overlay.color = source.dna.features["mcolor_alt"]
+						if(EARCOLOR)
+							accessory_overlay.color = source.dna.features["ear_color"]
+						if(SNOUTCOLOR)
+							accessory_overlay.color = source.dna.features["snout_color"]
+						if(TAILCOLOR)
+							accessory_overlay.color = source.dna.features["tail_color"]
+						// END ORBSTATION EDIT
 				else
 					accessory_overlay.color = forced_colour
 			standing += accessory_overlay
@@ -853,6 +865,14 @@ GLOBAL_LIST_EMPTY(features_by_species)
 						inner_accessory_overlay.color = source.facial_hair_color
 					if(EYECOLOR)
 						inner_accessory_overlay.color = source.eye_color_left
+					if(MUTCOLORS_ALT)
+						inner_accessory_overlay.color = source.dna.features["mcolor_alt"]
+					if(EARCOLOR)
+						inner_accessory_overlay.color = source.dna.features["ear_color"]
+					if(SNOUTCOLOR)
+						inner_accessory_overlay.color = source.dna.features["snout_color"]
+					if(TAILCOLOR)
+						inner_accessory_overlay.color = source.dna.features["tail_color"]
 
 				if(accessory.center)
 					inner_accessory_overlay = center_image(inner_accessory_overlay, accessory.dimension_x, accessory.dimension_y)

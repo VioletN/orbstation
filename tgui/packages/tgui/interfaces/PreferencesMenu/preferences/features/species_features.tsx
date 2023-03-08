@@ -65,8 +65,38 @@ export const feature_rat_tail: FeatureChoiced = {
   component: FeatureDropdownInput,
 };
 
+export const feature_chimera_tail: FeatureChoiced = {
+  name: 'Tail',
+  component: FeatureDropdownInput,
+};
+
+export const feature_chimera_spines: FeatureChoiced = {
+  name: 'Spines',
+  component: FeatureDropdownInput,
+};
+
 export const feature_mcolor: Feature<string> = {
   name: 'Mutant color',
+  component: FeatureColorInput,
+};
+
+export const feature_mcolor_alt: Feature<string> = {
+  name: 'Secondary mutant color',
+  component: FeatureColorInput,
+};
+
+export const feature_ear_color: Feature<string> = {
+  name: 'Ear color',
+  component: FeatureColorInput,
+};
+
+export const feature_snout_color: Feature<string> = {
+  name: 'Snout color',
+  component: FeatureColorInput,
+};
+
+export const feature_tail_color: Feature<string> = {
+  name: 'Tail color',
   component: FeatureColorInput,
 };
 

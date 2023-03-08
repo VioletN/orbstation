@@ -100,10 +100,21 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	target.dna.features["pod_hair"] = "Ivy"
 
 	// ORBSTATION
+	target.dna.features["mcolor_alt"] = COLOR_WHITE
+	target.dna.features["ear_color"] = COLOR_WHITE
+	target.dna.features["snout_color"] = COLOR_WHITE
 	target.dna.features["rat_snout"] = "Round"
 	target.dna.features["rat_tail"] = "High"
 	target.dna.features["rat_ears"] = "Round"
 	target.dna.features["moth_color"] = "#ffd98c"
+	// ORBSTATION: Chimeras
+	target.dna.features["chimera_snout"] = "None"
+	target.dna.features["chimera_horns"] = "None"
+	target.dna.features["chimera_tail"] = "None"
+	target.dna.features["chimera_wings"] = "None"
+	target.dna.features["chimera_ears"] = "None"
+	target.dna.features["chimera_body_markings"] = "None"
+	target.dna.features["chimera_spines"] = "None"
 
 /// Provides a dummy that is consistently bald, white, naked, etc.
 /mob/living/carbon/human/dummy/consistent

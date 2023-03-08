@@ -22,6 +22,10 @@ GLOBAL_LIST_INIT(identity_block_lengths, list(
 GLOBAL_LIST_INIT(features_block_lengths, list(
 		"[DNA_MUTANT_COLOR_BLOCK]" = DNA_BLOCK_SIZE_COLOR,
 		"[DNA_ETHEREAL_COLOR_BLOCK]" = DNA_BLOCK_SIZE_COLOR,
+		"[DNA_MUTANT_COLOR_ALT_BLOCK]" =  DNA_BLOCK_SIZE_COLOR,
+		"[DNA_EAR_COLOR_BLOCK]" = DNA_BLOCK_SIZE_COLOR,
+		"[DNA_SNOUT_COLOR_BLOCK]" = DNA_BLOCK_SIZE_COLOR,
+		"[DNA_TAIL_COLOR_BLOCK]" = DNA_BLOCK_SIZE_COLOR,
 	))
 
 /**
@@ -226,6 +230,14 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 	if(features["pod_hair"])
 		L[DNA_POD_HAIR_BLOCK] = construct_block(GLOB.pod_hair_list.Find(features["pod_hair"]), GLOB.pod_hair_list.len)
 	// ORBSTATION
+	if(features["mcolor_alt"])
+		L[DNA_MUTANT_COLOR_ALT_BLOCK] = sanitize_hexcolor(features["mcolor_alt"], include_crunch = FALSE)
+	if(features["ear_color"])
+		L[DNA_EAR_COLOR_BLOCK] = sanitize_hexcolor(features["ear_color"], include_crunch = FALSE)
+	if(features["snout_color"])
+		L[DNA_SNOUT_COLOR_BLOCK] = sanitize_hexcolor(features["snout_color"], include_crunch = FALSE)
+	if(features["tail_color"])
+		L[DNA_TAIL_COLOR_BLOCK] = sanitize_hexcolor(features["tail_color"], include_crunch = FALSE)
 	if(features["rat_snout"])
 		L[DNA_RAT_SNOUT_BLOCK] = construct_block(GLOB.rat_snouts_list.Find(features["rat_snout"]), GLOB.rat_snouts_list.len)
 	if(features["rat_tail"])
@@ -233,7 +245,22 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 	if(features["rat_ears"])
 		L[DNA_RAT_EARS_BLOCK] = construct_block(GLOB.rat_ears_list.Find(features["rat_ears"]), GLOB.rat_ears_list.len)
 	if(features["moth_color"])
-		L[DNA_ETHEREAL_COLOR_BLOCK] = sanitize_hexcolor(features["moth_color"], include_crunch = FALSE)
+		L[DNA_MOTH_COLOR_BLOCK] = sanitize_hexcolor(features["moth_color"], include_crunch = FALSE)
+	// ORBSTATION: Chimeras
+	if(features["chimera_snout"])
+		L[DNA_CHIMERA_SNOUT_BLOCK] = construct_block(GLOB.chimera_snouts_list.Find(features["chimera_snout"]), GLOB.chimera_snouts_list.len)
+	if(features["chimera_horns"])
+		L[DNA_CHIMERA_HORNS_BLOCK] = construct_block(GLOB.chimera_horns_list.Find(features["chimera_horns"]), GLOB.chimera_horns_list.len)
+	if(features["chimera_tail"])
+		L[DNA_CHIMERA_TAIL_BLOCK] = construct_block(GLOB.chimera_tails_list.Find(features["chimera_tail"]), GLOB.chimera_tails_list.len)
+	if(features["chimera_wings"])
+		L[DNA_CHIMERA_WINGS_BLOCK] = construct_block(GLOB.chimera_wings_list.Find(features["chimera_wings"]), GLOB.chimera_wings_list.len)
+	if(features["chimera_ears"])
+		L[DNA_CHIMERA_EARS_BLOCK] = construct_block(GLOB.chimera_ears_list.Find(features["chimera_ears"]), GLOB.chimera_ears_list.len)
+	if(features["chimera_body_markings"])
+		L[DNA_CHIMERA_BODY_MARKINGS_BLOCK] = construct_block(GLOB.chimera_body_markings_list.Find(features["chimera_body_markings"]), GLOB.chimera_body_markings_list.len)
+	if(features["chimera_spines"])
+		L[DNA_CHIMERA_SPINES_BLOCK] = construct_block(GLOB.chimera_spines_list.Find(features["chimera_spines"]), GLOB.chimera_spines_list.len)
 
 	for(var/blocknum in 1 to DNA_FEATURE_BLOCKS)
 		. += L[blocknum] || random_string(GET_UI_BLOCK_LEN(blocknum), GLOB.hex_characters)
@@ -369,6 +396,14 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 		if(DNA_POD_HAIR_BLOCK)
 			set_uni_feature_block(blocknumber, construct_block(GLOB.pod_hair_list.Find(features["pod_hair"]), GLOB.pod_hair_list.len))
 		// ORBSTATION
+		if(DNA_MUTANT_COLOR_ALT_BLOCK)
+			set_uni_feature_block(blocknumber, sanitize_hexcolor(features["mcolor_alt"], include_crunch = FALSE))
+		if(DNA_EAR_COLOR_BLOCK)
+			set_uni_feature_block(blocknumber, sanitize_hexcolor(features["ear_color"], include_crunch = FALSE))
+		if(DNA_SNOUT_COLOR_BLOCK)
+			set_uni_feature_block(blocknumber, sanitize_hexcolor(features["snout_color"], include_crunch = FALSE))
+		if(DNA_TAIL_COLOR_BLOCK)
+			set_uni_feature_block(blocknumber, sanitize_hexcolor(features["tail_color"], include_crunch = FALSE))
 		if(DNA_RAT_SNOUT_BLOCK)
 			set_uni_feature_block(blocknumber, construct_block(GLOB.rat_snouts_list.Find(features["rat_snout"]), GLOB.rat_snouts_list.len))
 		if(DNA_RAT_TAIL_BLOCK)
@@ -377,6 +412,21 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 			set_uni_feature_block(blocknumber, construct_block(GLOB.rat_ears_list.Find(features["rat_ears"]), GLOB.rat_ears_list.len))
 		if(DNA_MOTH_COLOR_BLOCK)
 			set_uni_feature_block(blocknumber, sanitize_hexcolor(features["moth_color"], include_crunch = FALSE))
+		// ORBSTATION: Chimeras
+		if(DNA_CHIMERA_SNOUT_BLOCK)
+			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_snouts_list.Find(features["chimera_snout"]), GLOB.chimera_snouts_list.len))
+		if(DNA_CHIMERA_HORNS_BLOCK)
+			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_horns_list.Find(features["chimera_horns"]), GLOB.chimera_horns_list.len))
+		if(DNA_CHIMERA_TAIL_BLOCK)
+			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_tails_list.Find(features["chimera_tail"]), GLOB.chimera_tails_list.len))
+		if(DNA_CHIMERA_WINGS_BLOCK)
+			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_wings_list.Find(features["chimera_wings"]), GLOB.chimera_wings_list.len))
+		if(DNA_CHIMERA_EARS_BLOCK)
+			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_ears_list.Find(features["chimera_ears"]), GLOB.chimera_ears_list.len))
+		if(DNA_CHIMERA_BODY_MARKINGS_BLOCK)
+			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_body_markings_list.Find(features["chimera_body_markings"]), GLOB.chimera_body_markings_list.len))
+		if(DNA_CHIMERA_SPINES)
+			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_spines_list.Find(features["chimera_spines"]), GLOB.chimera_spines_list.len))
 
 //Please use add_mutation or activate_mutation instead
 /datum/dna/proc/force_give(datum/mutation/human/HM)
@@ -652,12 +702,35 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 	if(dna.features["pod_hair"])
 		dna.features["pod_hair"] = GLOB.pod_hair_list[deconstruct_block(get_uni_feature_block(features, DNA_POD_HAIR_BLOCK), GLOB.pod_hair_list.len)]
 	// ORBSTATION
+	if(dna.features["mcolor_alt"])
+		dna.features["mcolor_alt"] = sanitize_hexcolor(get_uni_feature_block(features, DNA_MUTANT_COLOR_ALT_BLOCK))
+	if(dna.features["ear_color"])
+		dna.features["ear_color"] = sanitize_hexcolor(get_uni_feature_block(features, DNA_EAR_COLOR_BLOCK))
+	if(dna.features["snout_color"])
+		dna.features["snout_color"] = sanitize_hexcolor(get_uni_feature_block(features, DNA_SNOUT_COLOR_BLOCK))
+	if(dna.features["tail_color"])
+		dna.features["tail_color"] = sanitize_hexcolor(get_uni_feature_block(features, DNA_TAIL_COLOR_BLOCK))
 	if(dna.features["rat_snout"])
 		dna.features["rat_snout"] = GLOB.rat_snouts_list[deconstruct_block(get_uni_feature_block(features, DNA_RAT_SNOUT_BLOCK), GLOB.rat_snouts_list.len)]
 	if(dna.features["rat_tail"])
 		dna.features["rat_tail"] = GLOB.rat_tails_list[deconstruct_block(get_uni_feature_block(features, DNA_RAT_TAIL_BLOCK), GLOB.rat_tails_list.len)]
 	if(dna.features["rat_ears"])
 		dna.features["rat_ears"] = GLOB.rat_ears_list[deconstruct_block(get_uni_feature_block(features, DNA_RAT_EARS_BLOCK), GLOB.rat_ears_list.len)]
+	// ORBSTATION: Chimeras
+	if(dna.features["chimera_snout"])
+		dna.features["chimera_snout"] = GLOB.chimera_snouts_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_SNOUT_BLOCK), GLOB.chimera_snouts_list.len)]
+	if(dna.features["chimera_horns"])
+		dna.features["chimera_horns"] = GLOB.chimera_horns_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_HORNS_BLOCK), GLOB.chimera_horns_list.len)]
+	if(dna.features["chimera_tail"])
+		dna.features["chimera_tail"] = GLOB.chimera_tails_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_TAILS_BLOCK), GLOB.chimera_tails_list.len)]
+	if(dna.features["chimera_wings"])
+		dna.features["chimera_wings"] = GLOB.chimera_wings_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_WINGS_BLOCK), GLOB.chimera_wings_list.len)]
+	if(dna.features["chimera_ears"])
+		dna.features["chimera_ears"] = GLOB.chimera_ears_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_EARS_BLOCK), GLOB.chimera_ears_list.len)]
+	if(dna.features["chimera_body_markings"])
+		dna.features["chimera_body_markings"] = GLOB.chimera_body_markings_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_MARKINGS_BLOCK), GLOB.chimera_body_markings_list.len)]
+	if(dna.features["chimera_spines"])
+		dna.features["chimera_spines"] = GLOB.chimera_spines_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_SPINES_BLOCK), GLOB.chimera_spines_list.len)]
 
 	for(var/obj/item/organ/external/external_organ in organs)
 		external_organ.mutate_feature(features, src)

@@ -43,6 +43,14 @@ GLOBAL_LIST_EMPTY(pod_hair_list)
 GLOBAL_LIST_EMPTY(rat_snouts_list)
 GLOBAL_LIST_EMPTY(rat_tails_list)
 GLOBAL_LIST_EMPTY(rat_ears_list)
+	//ORBSTATION: Chimeras
+GLOBAL_LIST_EMPTY(chimera_snouts_list)
+GLOBAL_LIST_EMPTY(chimera_horns_list)
+GLOBAL_LIST_EMPTY(chimera_tails_list)
+GLOBAL_LIST_EMPTY(chimera_wings_list)
+GLOBAL_LIST_EMPTY(chimera_ears_list)
+GLOBAL_LIST_EMPTY(chimera_body_markings_list)
+GLOBAL_LIST_EMPTY(chimera_spines_list)
 
 GLOBAL_LIST_INIT(color_list_ethereal, list(
 	"Blue" = "#3399ff",
