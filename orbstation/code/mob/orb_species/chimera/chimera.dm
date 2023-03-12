@@ -1,7 +1,7 @@
 /datum/species/chimera
-    name = "\improper Chimera"
-    plural_form = "Chimeras"
-    id = SPECIES_CHIMERA
+	name = "\improper Chimera"
+	plural_form = "Chimeras"
+	id = SPECIES_CHIMERA
 	species_traits = list(
 		EYECOLOR,
 		HAIR,
@@ -10,8 +10,9 @@
 		MUTCOLORS,
 		MUTCOLORS_ALT,
 		TAILCOLOR,
+		CAN_TOGGLE_HUMAN_BODY,
 	)
-    inherent_traits = list(
+	inherent_traits = list(
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_CAN_USE_FLIGHT_POTION,
@@ -21,8 +22,8 @@
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 	species_language_holder = /datum/language_holder/chimera
 
-    // Chimeras are neutral towards basically all food due to how variable they are...
-    // It'd be cool if you could select likes/dislikes but that'd probably be overcomplicating things.
+	// Chimeras are neutral towards basically all food due to how variable they are...
+	// It'd be cool if you could select likes/dislikes but that'd probably be overcomplicating things.
 	disliked_food = CLOTH
 
 	external_organs = list(
@@ -72,3 +73,9 @@
 
 /mob/living/carbon/human/species/chimera
 	race = /datum/species/chimera
+
+/datum/language_holder/chimera
+	understood_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
+								/datum/language/uncommon = list(LANGUAGE_ATOM))
+	spoken_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
+							/datum/language/uncommon = list(LANGUAGE_ATOM))

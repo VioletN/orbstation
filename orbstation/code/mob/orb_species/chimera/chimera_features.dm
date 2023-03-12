@@ -1,3 +1,19 @@
+/datum/preference/toggle/human_body_override
+	savefile_identifier = PREFERENCE_CHARACTER
+	savefile_key = "human_body_override"
+	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
+	can_randomize = FALSE
+	relevant_species_trait = CAN_TOGGLE_HUMAN_BODY
+
+/datum/preference/color/chimera_colors/create_default_value()
+	return FALSE
+
+/datum/preference/toggle/human_body_override/apply_to_human(mob/living/carbon/human/target, value)
+	target.dna.features["human_body_override"] = value
+	target.dna.species.use_skintones = value
+
+// COLORS
+
 /datum/preference/color/chimera_colors
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
@@ -181,7 +197,7 @@
 		var/datum/sprite_accessory/chimera_ears = GLOB.chimera_ears_list[ears_name]
 
 		var/icon/icon_with_ears = new(chimera_head)
-		icon_with_ears.Blend(icon(rat_ears.icon, "m_chimera_ears_[chimera_ears.icon_state]_FRONT"), ICON_OVERLAY)
+		icon_with_ears.Blend(icon(chimera_ears.icon, "m_chimera_ears_[chimera_ears.icon_state]_FRONT"), ICON_OVERLAY)
 		icon_with_ears.Scale(64, 64)
 		icon_with_ears.Crop(15, 64, 15 + 31, 64 - 31)
 

@@ -2278,6 +2278,16 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	new_species ||= target.dna.species //If no new species is provided, assume its src.
 	//Note for future: Potentionally add a new C.dna.species() to build a template species for more accurate limb replacement
 
+	// BEGIN ORBSTATION EDIT
+	if((CAN_TOGGLE_HUMAN_BODY in species_traits) && target.dna.features["human_body_override"] == TRUE)
+		new_species.bodypart_overrides[BODY_ZONE_L_ARM] = /obj/item/bodypart/arm/left
+		new_species.bodypart_overrides[BODY_ZONE_R_ARM] = /obj/item/bodypart/arm/right
+		new_species.bodypart_overrides[BODY_ZONE_HEAD] = /obj/item/bodypart/head
+		new_species.bodypart_overrides[BODY_ZONE_L_LEG] = /obj/item/bodypart/leg/left
+		new_species.bodypart_overrides[BODY_ZONE_R_LEG] = /obj/item/bodypart/leg/right
+		new_species.bodypart_overrides[BODY_ZONE_CHEST] = /obj/item/bodypart/chest
+	// END ORBSTATION EDIT
+
 	if((new_species.digitigrade_customization == DIGITIGRADE_OPTIONAL && target.dna.features["legs"] == DIGITIGRADE_LEGS) || new_species.digitigrade_customization == DIGITIGRADE_FORCED)
 		new_species.bodypart_overrides[BODY_ZONE_R_LEG] = /obj/item/bodypart/leg/right/digitigrade
 		new_species.bodypart_overrides[BODY_ZONE_L_LEG] = /obj/item/bodypart/leg/left/digitigrade

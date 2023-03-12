@@ -108,11 +108,13 @@
 // ORB ADDITION, for pod blood preferences
 #define POD_BLOOD 22
 
-// ORB ADDITION, for extra body part colors
+// ORB ADDITION, for extra body customization options
 #define MUTCOLORS_ALT 23
 #define EARCOLOR 24
 #define SNOUTCOLOR 25
 #define TAILCOLOR 26
+/// The species has the option to use a human body instead.
+#define CAN_TOGGLE_HUMAN_BODY 27
 
 //organ slots
 #define ORGAN_SLOT_ADAMANTINE_RESONATOR "adamantine_resonator"

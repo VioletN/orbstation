@@ -41,6 +41,8 @@
 	dna_block = DNA_CHIMERA_TAIL_BLOCK
 	bodypart_overlay = /datum/bodypart_overlay/mutant/tail/chimera
 
+	wag_flags = WAG_ABLE
+
 /datum/bodypart_overlay/mutant/tail/chimera
 	feature_key = "chimera_tail"
 
@@ -96,4 +98,7 @@
 // For chimera wings, the burnt icon is stored in the sprite datum for each wing type, allowing for
 // different wings to have different burnt icons.
 /datum/bodypart_overlay/mutant/wings/moth/chimera/get_base_icon_state()
-	return burnt ? sprite_datum.burnt_icon_state : sprite_datum.icon_state
+	if(istype(sprite_datum, /datum/sprite_accessory/chimera_wings))
+		var/datum/sprite_accessory/chimera_wings/wing_accessory = sprite_datum
+		return burnt ? wing_accessory.burnt_icon_state : wing_accessory.icon_state
+	return sprite_datum.icon_state

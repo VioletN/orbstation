@@ -11,11 +11,11 @@
 
 /datum/sprite_accessory/chimera_snouts/reptile_sharp
 	name = "Reptile - Sharp"
-	icon_state = "lizard_sharp"
+	icon_state = "reptile_sharp"
 
 /datum/sprite_accessory/chimera_snouts/reptile_round
 	name = "Reptile - Round"
-	icon_state = "lizard_round"
+	icon_state = "reptile_round"
 
 /datum/sprite_accessory/chimera_snouts/rodent_round
 	name = "Rodent - Round"
@@ -30,6 +30,7 @@
 /datum/sprite_accessory/chimera_snouts/possum
 	name = "Possum (white)"
 	icon_state = "possum"
+	hasinner = TRUE
 	color_src = NONE
 
 // HORNS (and antlers)
@@ -103,10 +104,12 @@
 /datum/sprite_accessory/tails/chimera/rodent_high
 	name = "Rodent - High"
 	icon_state = "rodent_high"
+	color_src = null
 
 /datum/sprite_accessory/tails/chimera/rodent_low
 	name = "Rodent - Low"
 	icon_state = "rodent_low"
+	color_src = null
 
 // EARS
 

@@ -258,7 +258,7 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 	if(features["chimera_ears"])
 		L[DNA_CHIMERA_EARS_BLOCK] = construct_block(GLOB.chimera_ears_list.Find(features["chimera_ears"]), GLOB.chimera_ears_list.len)
 	if(features["chimera_body_markings"])
-		L[DNA_CHIMERA_BODY_MARKINGS_BLOCK] = construct_block(GLOB.chimera_body_markings_list.Find(features["chimera_body_markings"]), GLOB.chimera_body_markings_list.len)
+		L[DNA_CHIMERA_MARKINGS_BLOCK] = construct_block(GLOB.chimera_body_markings_list.Find(features["chimera_body_markings"]), GLOB.chimera_body_markings_list.len)
 	if(features["chimera_spines"])
 		L[DNA_CHIMERA_SPINES_BLOCK] = construct_block(GLOB.chimera_spines_list.Find(features["chimera_spines"]), GLOB.chimera_spines_list.len)
 
@@ -423,9 +423,9 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_wings_list.Find(features["chimera_wings"]), GLOB.chimera_wings_list.len))
 		if(DNA_CHIMERA_EARS_BLOCK)
 			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_ears_list.Find(features["chimera_ears"]), GLOB.chimera_ears_list.len))
-		if(DNA_CHIMERA_BODY_MARKINGS_BLOCK)
+		if(DNA_CHIMERA_MARKINGS_BLOCK)
 			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_body_markings_list.Find(features["chimera_body_markings"]), GLOB.chimera_body_markings_list.len))
-		if(DNA_CHIMERA_SPINES)
+		if(DNA_CHIMERA_SPINES_BLOCK)
 			set_uni_feature_block(blocknumber, construct_block(GLOB.chimera_spines_list.Find(features["chimera_spines"]), GLOB.chimera_spines_list.len))
 
 //Please use add_mutation or activate_mutation instead
@@ -722,7 +722,7 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 	if(dna.features["chimera_horns"])
 		dna.features["chimera_horns"] = GLOB.chimera_horns_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_HORNS_BLOCK), GLOB.chimera_horns_list.len)]
 	if(dna.features["chimera_tail"])
-		dna.features["chimera_tail"] = GLOB.chimera_tails_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_TAILS_BLOCK), GLOB.chimera_tails_list.len)]
+		dna.features["chimera_tail"] = GLOB.chimera_tails_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_TAIL_BLOCK), GLOB.chimera_tails_list.len)]
 	if(dna.features["chimera_wings"])
 		dna.features["chimera_wings"] = GLOB.chimera_wings_list[deconstruct_block(get_uni_feature_block(features, DNA_CHIMERA_WINGS_BLOCK), GLOB.chimera_wings_list.len)]
 	if(dna.features["chimera_ears"])
