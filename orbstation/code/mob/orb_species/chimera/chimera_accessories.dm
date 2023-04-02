@@ -5,10 +5,6 @@
 	em_block = TRUE
 	color_src = SNOUTCOLOR
 
-/datum/sprite_accessory/chimera_snouts/none
-	name = "None"
-	icon_state = "none"
-
 /datum/sprite_accessory/chimera_snouts/reptile_sharp
 	name = "Reptile - Sharp"
 	icon_state = "reptile_sharp"
@@ -39,10 +35,6 @@
 	icon = 'orbstation/icons/mob/species/chimera/horns.dmi'
 	em_block = TRUE
 
-/datum/sprite_accessory/chimera_horns/none
-	name = "None"
-	icon_state = "none"
-
 /datum/sprite_accessory/chimera_horns/simple
 	name = "Simple"
 	icon_state = "simple"
@@ -67,11 +59,7 @@
 
 /datum/sprite_accessory/tails/chimera
 	icon = 'orbstation/icons/mob/species/chimera/tails.dmi'
-	color_src = TAILCOLOR
-
-/datum/sprite_accessory/tails/chimera/none
-	name = "None"
-	icon_state = "none"
+	color_src = MUTCOLORS
 
 /datum/sprite_accessory/tails/chimera/feline_standard
 	name = "Feline - Standard"
@@ -118,10 +106,6 @@
 	em_block = TRUE
 	color_src = EARCOLOR
 
-/datum/sprite_accessory/chimera_ears/none
-	name = "None"
-	icon_state = "none"
-
 /datum/sprite_accessory/chimera_ears/feline_standard
 	name = "Feline - Standard"
 	icon_state = "feline_standard"
@@ -163,22 +147,18 @@
 	icon = 'orbstation/icons/mob/species/chimera/body_markings.dmi'
 	color_src = MUTCOLORS_ALT
 
-/datum/sprite_accessory/chimera_body_markings/none
-	name = "None"
-	icon_state = "none"
-
 /datum/sprite_accessory/chimera_body_markings/dtiger
-	name = "Dark Tiger Body"
+	name = "Reptile - Dark Tiger Body"
 	icon_state = "dtiger"
 	gender_specific = 1
 
 /datum/sprite_accessory/chimera_body_markings/ltiger
-	name = "Light Tiger Body"
+	name = "Reptile - Light Tiger Body"
 	icon_state = "ltiger"
 	gender_specific = 1
 
 /datum/sprite_accessory/chimera_body_markings/lbelly
-	name = "Light Belly"
+	name = "Reptile - Light Belly"
 	icon_state = "lbelly"
 	gender_specific = 1
 
@@ -187,10 +167,7 @@
 /datum/sprite_accessory/chimera_spines
 	icon = 'orbstation/icons/mob/species/chimera/spines.dmi'
 	em_block = TRUE
-
-/datum/sprite_accessory/chimera_spines/none
-	name = "None"
-	icon_state = "none"
+	color_src = MUTCOLORS
 
 /datum/sprite_accessory/chimera_spines/short
 	name = "Short"

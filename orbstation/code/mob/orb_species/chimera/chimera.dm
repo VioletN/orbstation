@@ -9,7 +9,6 @@
 		LIPS,
 		MUTCOLORS,
 		MUTCOLORS_ALT,
-		TAILCOLOR,
 		CAN_TOGGLE_HUMAN_BODY,
 	)
 	inherent_traits = list(

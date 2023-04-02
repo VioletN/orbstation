@@ -37,13 +37,13 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/rat, GLOB.rat_tails_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/rat_ears, GLOB.rat_ears_list)
 	// ORBSTATION: Chimeras
-	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_snouts, GLOB.chimera_snouts_list)
-	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_horns, GLOB.chimera_horns_list)
-	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/chimera, GLOB.chimera_tails_list)
-	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_wings, GLOB.chimera_wings_list)
-	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_ears, GLOB.chimera_ears_list)
-	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_body_markings, GLOB.chimera_body_markings_list)
-	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_spines, GLOB.chimera_spines_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_snouts, GLOB.chimera_snouts_list, add_blank = TRUE)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_horns, GLOB.chimera_horns_list, add_blank = TRUE)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/chimera, GLOB.chimera_tails_list, add_blank = TRUE)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_wings, GLOB.chimera_wings_list, add_blank = TRUE)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_ears, GLOB.chimera_ears_list, add_blank = TRUE)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_body_markings, GLOB.chimera_body_markings_list, add_blank = TRUE)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/chimera_spines, GLOB.chimera_spines_list, add_blank = TRUE)
 
 /// Inits GLOB.species_list. Not using GLOBAL_LIST_INIT b/c it depends on GLOB.string_lists
 /proc/init_species_list()
