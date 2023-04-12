@@ -182,12 +182,17 @@
 	return oxyloss
 
 /mob/living/proc/adjustOxyLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype, required_respiration_type = ALL)
-	if(!forced && (status_flags & GODMODE))
-		return
-	if(iscarbon(src))
-		var/obj/item/organ/internal/lungs/affected_lungs = getorganslot(ORGAN_SLOT_LUNGS)
-		if(!forced && !(affected_lungs?.respiration_type & required_respiration_type))
+	if(!forced)
+		if(status_flags & GODMODE)
 			return
+
+		var/obj/item/organ/internal/lungs/affected_lungs = get_organ_slot(ORGAN_SLOT_LUNGS)
+		if(isnull(affected_lungs))
+			if(!(mob_respiration_type & required_respiration_type))  // if the mob has no lungs, use mob_respiration_type
+				return
+		else
+			if(!(affected_lungs.respiration_type & required_respiration_type)) // otherwise use the lungs' respiration_type
+				return
 	. = oxyloss
 	oxyloss = clamp((oxyloss + (amount * CONFIG_GET(number/damage_multiplier))), 0, maxHealth * 2)
 	if(updating_health)
@@ -195,12 +200,17 @@
 
 
 /mob/living/proc/setOxyLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype, required_respiration_type = ALL)
-	if(!forced && (status_flags & GODMODE))
-		return
-	if(iscarbon(src))
-		var/obj/item/organ/internal/lungs/affected_lungs = getorganslot(ORGAN_SLOT_LUNGS)
-		if(!forced && !(affected_lungs?.respiration_type & required_respiration_type))
+	if(!forced)
+		if(status_flags & GODMODE)
 			return
+
+		var/obj/item/organ/internal/lungs/affected_lungs = get_organ_slot(ORGAN_SLOT_LUNGS)
+		if(isnull(affected_lungs))
+			if(!(mob_respiration_type & required_respiration_type))
+				return
+		else
+			if(!(affected_lungs.respiration_type & required_respiration_type))
+				return
 	. = oxyloss
 	oxyloss = amount
 	if(updating_health)
@@ -274,7 +284,7 @@
 /mob/living/proc/setOrganLoss(slot, amount, maximum, required_organtype)
 	return
 
-/mob/living/proc/getOrganLoss(slot)
+/mob/living/proc/get_organ_loss(slot)
 	return
 
 /mob/living/proc/getStaminaLoss()

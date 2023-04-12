@@ -857,7 +857,6 @@
 	ambience_index = AMBIENCE_ENGI
 	airlock_wires = /datum/wires/airlock/engineering
 	sound_environment = SOUND_AREA_SPACE
-	base_lighting_alpha = 255
 
 /area/station/solars/fore
 	name = "\improper Fore Solar Array"
@@ -1094,6 +1093,9 @@
 	name = "\improper Courtroom"
 	icon_state = "courtroom"
 	sound_environment = SOUND_AREA_LARGE_ENCLOSED
+
+/area/station/security/courtroom/holding
+	name = "\improper Courtroom Prisoner Holding Room"
 
 /area/station/security/prison
 	name = "\improper Prison Wing"
@@ -1409,6 +1411,20 @@
 	icon_state = "abandoned_sci"
 	sound_environment = SOUND_AREA_SMALL_ENCLOSED
 
+/area/station/escapepodbay
+	name = "\improper Pod Bay"
+	icon_state = "podbay"
+
+/area/station/asteroid
+	name = "\improper Station Asteroid"
+	icon_state = "station_asteroid"
+	always_unpowered = TRUE
+	power_environ = FALSE
+	power_equip = FALSE
+	power_light = FALSE
+	requires_power = TRUE
+	ambience_index = AMBIENCE_MINING
+
 // Telecommunications Satellite
 
 /area/station/tcommsat
@@ -1416,7 +1432,6 @@
 	ambientsounds = list('sound/ambience/ambisin2.ogg', 'sound/ambience/signal.ogg', 'sound/ambience/signal.ogg', 'sound/ambience/ambigen10.ogg', 'sound/ambience/ambitech.ogg',\
 											'sound/ambience/ambitech2.ogg', 'sound/ambience/ambitech3.ogg', 'sound/ambience/ambimystery.ogg')
 	airlock_wires = /datum/wires/airlock/engineering
-	network_root_id = STATION_NETWORK_ROOT // They should of unpluged the router before they left
 
 /area/station/tcommsat/computer
 	name = "\improper Telecomms Control Room"
