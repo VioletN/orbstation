@@ -26,6 +26,7 @@ GLOBAL_LIST_INIT(features_block_lengths, list(
 		"[DNA_EAR_COLOR_BLOCK]" = DNA_BLOCK_SIZE_COLOR,
 		"[DNA_SNOUT_COLOR_BLOCK]" = DNA_BLOCK_SIZE_COLOR,
 		"[DNA_TAIL_COLOR_BLOCK]" = DNA_BLOCK_SIZE_COLOR,
+		"[DNA_HORN_COLOR_BLOCK]" = DNA_BLOCK_SIZE_COLOR,
 	))
 
 /**
@@ -238,6 +239,8 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 		L[DNA_SNOUT_COLOR_BLOCK] = sanitize_hexcolor(features["snout_color"], include_crunch = FALSE)
 	if(features["tail_color"])
 		L[DNA_TAIL_COLOR_BLOCK] = sanitize_hexcolor(features["tail_color"], include_crunch = FALSE)
+	if(features["horn_color"])
+		L[DNA_HORN_COLOR_BLOCK] = sanitize_hexcolor(features["horn_color"], include_crunch = FALSE)
 	if(features["rat_snout"])
 		L[DNA_RAT_SNOUT_BLOCK] = construct_block(GLOB.rat_snouts_list.Find(features["rat_snout"]), GLOB.rat_snouts_list.len)
 	if(features["rat_tail"])
@@ -404,6 +407,8 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 			set_uni_feature_block(blocknumber, sanitize_hexcolor(features["snout_color"], include_crunch = FALSE))
 		if(DNA_TAIL_COLOR_BLOCK)
 			set_uni_feature_block(blocknumber, sanitize_hexcolor(features["tail_color"], include_crunch = FALSE))
+		if(DNA_HORN_COLOR_BLOCK)
+			set_uni_feature_block(blocknumber, sanitize_hexcolor(features["horn_color"], include_crunch = FALSE))
 		if(DNA_RAT_SNOUT_BLOCK)
 			set_uni_feature_block(blocknumber, construct_block(GLOB.rat_snouts_list.Find(features["rat_snout"]), GLOB.rat_snouts_list.len))
 		if(DNA_RAT_TAIL_BLOCK)
@@ -710,6 +715,8 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 		dna.features["snout_color"] = sanitize_hexcolor(get_uni_feature_block(features, DNA_SNOUT_COLOR_BLOCK))
 	if(dna.features["tail_color"])
 		dna.features["tail_color"] = sanitize_hexcolor(get_uni_feature_block(features, DNA_TAIL_COLOR_BLOCK))
+	if(dna.features["horn_color"])
+		dna.features["horn_color"] = sanitize_hexcolor(get_uni_feature_block(features, DNA_HORN_COLOR_BLOCK))
 	if(dna.features["rat_snout"])
 		dna.features["rat_snout"] = GLOB.rat_snouts_list[deconstruct_block(get_uni_feature_block(features, DNA_RAT_SNOUT_BLOCK), GLOB.rat_snouts_list.len)]
 	if(dna.features["rat_tail"])

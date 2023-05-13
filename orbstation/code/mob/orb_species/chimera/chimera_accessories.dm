@@ -34,6 +34,7 @@
 /datum/sprite_accessory/chimera_horns
 	icon = 'orbstation/icons/mob/species/chimera/horns.dmi'
 	em_block = TRUE
+	color_src = HORNCOLOR
 
 /datum/sprite_accessory/chimera_horns/simple
 	name = "Simple"
@@ -59,7 +60,7 @@
 
 /datum/sprite_accessory/tails/chimera
 	icon = 'orbstation/icons/mob/species/chimera/tails.dmi'
-	color_src = MUTCOLORS
+	color_src = TAILCOLOR
 
 /datum/sprite_accessory/tails/chimera/feline_standard
 	name = "Feline - Standard"
@@ -294,3 +295,19 @@
 /datum/sprite_accessory/chimera_wings/moffra
 	name = "Moth - Moffra"
 	icon_state = "moffra"
+
+/datum/sprite_accessory/chimera_wings/tarantulahawk
+	name = "Tarantula Hawk"
+	icon_state = "tarantula"
+
+/datum/sprite_accessory/chimera_wings/bee
+	name = "Bee"
+	icon_state = "bee"
+
+/datum/sprite_accessory/chimera_wings/wasp
+	name = "Wasp"
+	icon_state = "wasp"
+
+/datum/sprite_accessory/chimera_wings/clearwing
+	name = "Clearwing"
+	icon_state = "clearwing"

@@ -120,6 +120,8 @@
 					draw_color = human_owner.dna.features["snout_color"]
 				if(TAILCOLOR)
 					draw_color = human_owner.dna.features["tail_color"]
+				if(HORNCOLOR)
+					draw_color = human_owner.dna.features["horn_color"]
 				else
 					draw_color = ownerlimb.draw_color
 			//END ORBSTATION EDIT

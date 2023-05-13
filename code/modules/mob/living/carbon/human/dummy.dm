@@ -103,6 +103,8 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	target.dna.features["mcolor_alt"] = COLOR_WHITE
 	target.dna.features["ear_color"] = COLOR_WHITE
 	target.dna.features["snout_color"] = COLOR_WHITE
+	target.dna.features["tail_color"] = COLOR_WHITE
+	target.dna.features["horn_color"] = COLOR_WHITE
 	target.dna.features["rat_snout"] = "Round"
 	target.dna.features["rat_tail"] = "High"
 	target.dna.features["rat_ears"] = "Round"

@@ -113,8 +113,9 @@
 #define EARCOLOR 24
 #define SNOUTCOLOR 25
 #define TAILCOLOR 26
+#define HORNCOLOR 27
 /// The species has the option to use a human body instead.
-#define CAN_TOGGLE_HUMAN_BODY 27
+#define CAN_TOGGLE_HUMAN_BODY 28
 
 //organ slots
 #define ORGAN_SLOT_ADAMANTINE_RESONATOR "adamantine_resonator"
